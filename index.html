@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Examen Oficial A1 - Instituto NOA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Oficial A2 - Instituto NOA</title>
     <!-- Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Fuente -->
@@ -24,37 +24,30 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            /* SEGURIDAD: NO SELECCIONAR TEXTO */
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
-            overscroll-behavior-y: none; 
-        }
-
-        html, body {
-            height: 100%;
-            overflow: hidden;
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            touch-action: pan-x pan-y;
         }
 
         body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
-            align-items: center;
-            padding: 10px;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .container {
             width: 100%;
             max-width: 800px;
-            height: 98vh;
             background: var(--card-bg);
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(255, 102, 0, 0.2);
-            overflow-y: auto;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             position: relative;
@@ -64,84 +57,139 @@
         /* --- CÁMARA FLOTANTE --- */
         .security-cam {
             position: fixed;
-            bottom: 80px; /* Subida para no tapar banner */
+            bottom: 20px;
             right: 20px;
-            width: 100px;
-            height: 75px;
+            width: 180px;
+            height: 135px;
             background: #000;
-            border: 2px solid #333;
+            border: 4px solid #333;
             border-radius: 8px;
             z-index: 9999;
             box-shadow: 0 5px 20px rgba(0,0,0,0.6);
             overflow: hidden;
-            display: none;
-            opacity: 0.9;
-            pointer-events: none;
+            display: none; /* Se activa con JS */
         }
 
-        .security-cam video { width: 100%; height: 100%; object-fit: cover; filter: grayscale(50%); }
+        .security-cam video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            filter: grayscale(30%);
+        }
 
         .rec-indicator {
-            position: absolute; top: 2px; left: 2px;
-            color: red; font-weight: bold; font-family: monospace; font-size: 0.5rem;
-            display: flex; align-items: center; gap: 2px;
-            background: rgba(0,0,0,0.7); padding: 2px 4px; border-radius: 3px;
+            position: absolute;
+            top: 5px; left: 5px;
+            color: #ff0000;
+            font-weight: bold;
+            font-family: monospace;
+            font-size: 0.8rem;
+            display: flex; align-items: center; gap: 5px;
+            background: rgba(0,0,0,0.6);
+            padding: 2px 6px;
+            border-radius: 3px;
         }
-        .rec-dot { width: 5px; height: 5px; background-color: red; border-radius: 50%; animation: blink 1s infinite; }
+
+        .rec-dot {
+            width: 10px; height: 10px;
+            background-color: #ff0000;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
         @keyframes blink { 50% { opacity: 0; } }
 
         /* HEADER */
         header {
             background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-            color: white; padding: 15px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
+            color: white;
+            padding: 10px 20px;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .logo-area { font-weight: 900; font-size: 1rem; display: flex; align-items: center; gap: 8px; text-transform: uppercase; }
-        .timer-badge { background: white; color: var(--primary-color); padding: 4px 10px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; }
-        .btn-finish-early { background: #c0392b; color: white; border: none; padding: 5px 8px; border-radius: 5px; font-size: 0.7rem; cursor: pointer; margin-left: 8px; }
+        
+        /* LOGO ESTILOS */
+        .logo-area { 
+            font-weight: 900; 
+            font-size: 1.2rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 15px; 
+            text-transform: uppercase; 
+        }
+        
+        .logo-img {
+            height: 50px;
+            width: auto;
+            background: white;
+            padding: 5px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
 
-        .progress-container { background-color: #eee; height: 5px; width: 100%; flex-shrink: 0; }
+        .timer-badge {
+            background: white; color: var(--primary-color);
+            padding: 5px 15px; border-radius: 20px;
+            font-weight: bold; font-size: 1.2rem;
+            display: flex; align-items: center; gap: 5px;
+            border: 2px solid #fff;
+        }
+
+        .btn-finish-early {
+            background: #c0392b; color: white; border: none;
+            padding: 8px 12px; border-radius: 5px; font-size: 0.8rem;
+            cursor: pointer; margin-left: 10px;
+        }
+
+        .progress-container { background-color: #eee; height: 8px; width: 100%; }
         .progress-bar { background-color: var(--accent-color); height: 100%; width: 0%; transition: width 0.3s ease; }
 
         /* SCREENS */
-        .screen { padding: 15px; flex: 1; display: none; flex-direction: column; align-items: center; justify-content: center; text-align: center; animation: fadeIn 0.4s; overflow-y: auto; }
+        .screen {
+            padding: 25px; flex: 1; display: none;
+            flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; animation: fadeIn 0.4s;
+        }
         .screen.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .intro-icon { font-size: 3.5rem; color: var(--primary-color); margin-bottom: 10px; }
+        .intro-icon { font-size: 5rem; color: var(--primary-color); margin-bottom: 20px; }
         
         .btn {
             background-color: var(--primary-color); color: white; border: none;
-            padding: 12px 30px; border-radius: 50px; font-size: 1rem;
+            padding: 15px 40px; border-radius: 50px; font-size: 1.1rem;
             font-weight: bold; cursor: pointer; transition: transform 0.2s;
-            margin-top: 15px; text-decoration: none; display: inline-block;
+            margin-top: 20px; text-decoration: none; display: inline-block;
             box-shadow: 0 4px 0 #bf360c;
         }
+        .btn:hover { transform: translateY(-2px); background: var(--primary-dark); }
         .btn:active { transform: translateY(2px); box-shadow: none; }
-        .btn-whatsapp { background-color: #25D366; box-shadow: 0 4px 0 #1e994a; width: 100%; margin-top: 10px; }
+        .btn-whatsapp { background-color: #25D366; box-shadow: 0 4px 0 #1e994a; width: 100%; margin-top: 15px; }
 
         /* GAME AREA */
-        .stats-bar { display: flex; justify-content: space-between; width: 100%; margin-bottom: 10px; font-weight: bold; color: #7f8c8d; font-size: 0.8rem; }
+        .stats-bar { display: flex; justify-content: space-between; width: 100%; margin-bottom: 15px; font-weight: bold; color: #7f8c8d; }
         
-        .lifelines-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
+        .lifelines-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
         .lifeline-btn {
             background: white; border: 2px solid var(--primary-color); color: var(--primary-color);
-            width: 45px; height: 45px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            cursor: pointer; position: relative; font-size: 0.6rem; font-weight: bold;
+            width: 55px; height: 55px; border-radius: 50%;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; position: relative; font-size: 0.7rem; font-weight: bold;
         }
-        .lifeline-btn i { font-size: 1rem; margin-bottom: 2px; }
         .lifeline-btn:disabled { border-color: #ccc; color: #ccc; opacity: 0.5; cursor: not-allowed; }
-        .badge-count { position: absolute; top: -2px; right: -2px; background: var(--secondary-color); color: white; width: 16px; height: 16px; border-radius: 50%; font-size: 0.6rem; display: flex; align-items: center; justify-content: center; }
+        .badge-count { position: absolute; top: -5px; right: -5px; background: var(--secondary-color); color: white; width: 20px; height: 20px; border-radius: 50%; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; }
 
         .question-image {
-            width: 100%; height: 100px; border-radius: 8px; margin-bottom: 10px;
+            width: 100%; height: 140px; border-radius: 10px; margin-bottom: 15px;
             background-color: #fff3e0; display: flex; align-items: center; justify-content: center;
-            font-size: 2.5rem; color: #ffcc80; border: 2px dashed #ffb74d;
+            font-size: 4rem; color: #ffcc80; border: 2px dashed #ffb74d;
         }
-        .question-text { font-size: 1rem; font-weight: 700; margin-bottom: 15px; color: #444; min-height: 40px; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+        .question-text { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; color: #444; min-height: 50px; }
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
+        @media (max-width: 600px) { .options-grid { grid-template-columns: 1fr; } }
+
         .option-btn {
-            background: white; border: 2px solid #ddd; padding: 10px; border-radius: 8px;
-            cursor: pointer; font-size: 0.9rem; text-align: left; position: relative; color: #555; font-weight: 500;
+            background: white; border: 2px solid #ddd; padding: 12px; border-radius: 8px;
+            cursor: pointer; font-size: 1rem; text-align: left; position: relative; color: #555; font-weight: 500;
         }
         .option-btn:hover:not(:disabled) { border-color: var(--primary-color); background: #fff8f0; }
         .option-btn.correct { background: var(--accent-color); color: white; border-color: var(--accent-color); }
@@ -151,52 +199,43 @@
         /* OVERLAYS */
         .overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); display: none; flex-direction: column;
+            background: rgba(0,0,0,0.92); display: none; flex-direction: column;
             align-items: center; justify-content: center; z-index: 900; padding: 20px;
             color: white; text-align: center; backdrop-filter: blur(5px);
         }
 
-        /* MOTIVATION CARD (EMOJIS) */
+        /* MOTIVATION CARD */
         .motivation-card {
             background: white; color: #333; border-radius: 15px; max-width: 400px;
-            overflow: hidden; box-shadow: 0 10px 30px rgba(255,255,255,0.2); animation: popIn 0.5s; padding: 30px 20px;
+            overflow: hidden; box-shadow: 0 10px 30px rgba(255,255,255,0.2); animation: popIn 0.5s;
         }
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        
-        .motivation-emoji { font-size: 5rem; margin-bottom: 10px; display: block; animation: bounce 1s infinite alternate; }
-        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
-        
-        .motivation-quote { font-style: italic; font-size: 1.1rem; margin-bottom: 20px; color: var(--primary-color); font-weight: bold; }
+        .motivation-img { width: 100%; height: 200px; object-fit: cover; }
+        .motivation-content { padding: 20px; }
+        .motivation-quote { font-style: italic; font-size: 1.1rem; margin-bottom: 10px; color: var(--primary-color); font-weight: bold; }
 
         /* RESULT FORM */
-        .student-form { width: 100%; background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 10px 0; text-align: left; border: 1px solid #ddd; }
+        .student-form { width: 100%; background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: left; border: 1px solid #ddd; }
         .form-input { width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }
-        .review-list { width: 100%; text-align: left; max-height: 150px; overflow-y: auto; margin-top: 10px; border: 1px solid #ddd; padding: 10px; background: #fff; font-size: 0.8rem; }
-        .alert-box { background: #ffebee; color: #c62828; padding: 8px; border-radius: 5px; margin-bottom: 10px; font-size: 0.8rem; border: 1px solid #ef9a9a; }
-
-        /* FOOTER BANNER */
-        footer {
-            margin-top: auto;
-            width: 100%;
-            background: #f0f0f0;
-            padding: 5px;
-            text-align: center;
-            border-top: 1px solid #ddd;
-            flex-shrink: 0;
-        }
+        .review-list { width: 100%; text-align: left; max-height: 150px; overflow-y: auto; margin-top: 15px; border: 1px solid #ddd; padding: 10px; background: #fff; font-size: 0.8rem; }
+        .alert-box { background: #ffebee; color: #c62828; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 0.9rem; border: 1px solid #ef9a9a; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
 <!-- CÁMARA FLOTANTE -->
 <div class="security-cam" id="securityCam">
-    <div class="rec-indicator"><div class="rec-dot"></div> REC</div>
+    <div class="rec-indicator"><div class="rec-dot"></div> REC • LIVE</div>
     <video id="webcamVideo" autoplay muted playsinline></video>
 </div>
 
 <div class="container">
     <header>
-        <div class="logo-area"><i class="fas fa-graduation-cap"></i> INSTITUTO NOA</div>
+        <div class="logo-area">
+            <!-- LOGO AGREGADO AQUÍ -->
+            <img src="https://institutonoa.com.ar/wp-content/uploads/2021/09/cropped-cropped-Logo-Covid-NOA-140x79-1-126x71.png" alt="Logo Instituto NOA" class="logo-img">
+            INSTITUTO NOA
+        </div>
         <div style="display:flex; align-items:center;">
             <div class="timer-badge" id="timerBadge" style="display:none;">
                 <i class="fas fa-stopwatch"></i> <span id="timer">20</span>
@@ -211,22 +250,27 @@
     <!-- PANTALLA INICIO -->
     <div id="startScreen" class="screen active">
         <div class="intro-icon"><i class="fas fa-user-shield"></i></div>
-        <h1 style="color:var(--primary-color)">Examen Oficial A1</h1>
-        <div style="background: white; padding: 15px; border-radius: 10px; margin: 15px 0; text-align: left; width: 100%; border-left: 5px solid var(--primary-color);">
-            <p style="font-size:0.9rem;"><strong><i class="fas fa-video"></i> MONITOREO ACTIVO:</strong> Se requiere cámara. No actualices la página.</p>
+        <h1 style="color:var(--primary-color)">Examen Oficial A2</h1>
+        
+        <div style="background: white; padding: 15px; border-radius: 10px; margin: 20px 0; text-align: left; width: 100%; border-left: 5px solid var(--primary-color);">
+            <p><strong><i class="fas fa-video"></i> REQUISITO DE MONITOREO:</strong></p>
+            <p style="font-size:0.9rem; margin-top:5px;">Este examen utiliza supervisión por cámara. Activa los permisos para continuar.</p>
         </div>
+        
         <ul style="font-size: 0.9rem; color: #666; margin-bottom: 10px; list-style: none;">
-            <li><i class="fas fa-check"></i> 50 Preguntas.</li>
-            <li><i class="fas fa-clock"></i> 20 seg/pregunta.</li>
-            <li><i class="fas fa-lock"></i> Un solo intento.</li>
+            <!-- TEXTO ACTUALIZADO A 60 PREGUNTAS -->
+            <li><i class="fas fa-check"></i> 60 Preguntas seleccionadas.</li>
+            <li><i class="fas fa-clock"></i> 20 segundos por pregunta.</li>
+            <li><i class="fas fa-lock"></i> Un solo intento permitido.</li>
         </ul>
+
         <button class="btn" onclick="initExam()">ACTIVAR CÁMARA Y COMENZAR</button>
     </div>
 
     <!-- PANTALLA JUEGO -->
     <div id="gameScreen" class="screen">
         <div class="stats-bar">
-            <span id="qCount">1/50</span>
+            <span id="qCount">1/60</span>
             <span id="sCount">Aciertos: 0</span>
         </div>
         <div class="lifelines-container">
@@ -249,10 +293,12 @@
 
     <div id="motivationOverlay" class="overlay" style="background: rgba(0,0,0,0.85);">
         <div class="motivation-card">
-            <span class="motivation-emoji" id="motEmoji">😎</span>
-            <div class="motivation-quote" id="motQuote"></div>
-            <p style="font-size: 0.9rem; color: #666;">¡Vamos! Estás haciendo un gran trabajo.</p>
-            <button class="btn" onclick="closeMotivation()">CONTINUAR</button>
+            <img src="" id="motImg" class="motivation-img" alt="Motivación">
+            <div class="motivation-content">
+                <div class="motivation-quote" id="motQuote"></div>
+                <p style="font-size: 0.9rem; color: #666;">¡Vamos! Estás haciendo un gran trabajo.</p>
+                <button class="btn" onclick="closeMotivation()" style="padding: 10px 30px; margin-top: 15px; font-size: 0.9rem;">CONTINUAR</button>
+            </div>
         </div>
     </div>
 
@@ -260,10 +306,10 @@
     <div id="resultScreen" class="screen">
         <h2 style="color: #666;">Examen Finalizado</h2>
         <div class="alert-box" id="cheatAlert" style="display:none;">
-            <i class="fas fa-user-lock"></i> Intento de reingreso bloqueado.
+            <i class="fas fa-user-lock"></i> Intento de reingreso bloqueado. Resultado anterior:
         </div>
         <div id="rankBadge" style="background:gray; color:white; padding:5px 15px; border-radius:15px; font-weight:bold; margin:10px 0;">NIVEL</div>
-        <div class="result-score" id="finalScore">0/50</div>
+        <div class="result-score" id="finalScore">0/60</div>
         <p id="motivationalMsg">Mensaje</p>
 
         <div class="student-form">
@@ -277,114 +323,165 @@
         </div>
 
         <a href="#" id="whatsappBtn" class="btn btn-whatsapp" onclick="return validateAndSend()">
-            <i class="fab fa-whatsapp"></i> ENVIAR AL PROFESOR
+            <i class="fab fa-whatsapp"></i> ENVIAR AL WHATSAPP (3812234142)
         </a>
         <div class="review-list" id="reviewList"></div>
     </div>
-
-    <!-- FOOTER NATIVE BANNER -->
-    <footer>
-        <script async="async" data-cfasync="false" src="//pl28177742.effectivegatecpm.com/9f3a12f2f400330b956da2a51ee02dc4/invoke.js"></script>
-        <div id="container-9f3a12f2f400330b956da2a51ee02dc4"></div>
-    </footer>
 </div>
 
 <script>
     const TIME_PER_QUESTION = 20;
-    const PASS_SCORE = 25;
+    // Aprobación ajustada a 36/60 (60%)
+    const PASS_SCORE = 36;
+    const TOTAL_QUESTIONS = 60;
     
-    // BASE DE DATOS A1 (50 Preguntas)
+    // 100 Preguntas ÚNICAS para Nivel A2
+    // Presente Simple, Continuo, Pasado, Futuro, Vocabulario, Preposiciones
     const db = [
-        { q: "I ______ a student.", o: ["am", "is", "are", "be"], a: 0, e: "I am.", i: "fa-user-graduate" },
-        { q: "She ______ happy.", o: ["are", "am", "is", "be"], a: 2, e: "She is.", i: "fa-face-smile" },
-        { q: "They ______ from Argentina.", o: ["is", "am", "are", "be"], a: 2, e: "They are.", i: "fa-flag" },
-        { q: "¿Qué significa 'To Be'?", o: ["Correr", "Ser o estar", "Tener", "Ver"], a: 1, e: "Ser o Estar.", i: "fa-language" },
-        { q: "He ______ my brother.", o: ["are", "am", "is", "be"], a: 2, e: "He is.", i: "fa-user" },
-        { q: "I ______ pizza.", o: ["likes", "like", "liking", "to like"], a: 1, e: "I like.", i: "fa-pizza-slice" },
-        { q: "She ______ football.", o: ["play", "plays", "playing", "played"], a: 1, e: "She plays.", i: "fa-futbol" },
-        { q: "He, She, It agregan...", o: ["-ing", "-ed", "-s o -es", "Nada"], a: 2, e: "Regla de la S.", i: "fa-pen-nib" },
-        { q: "We ______ in a big house.", o: ["lives", "live", "living", "lived"], a: 1, e: "We live.", i: "fa-house" },
-        { q: "The cat ______ milk.", o: ["drink", "drinks", "drinking", "drank"], a: 1, e: "It drinks.", i: "fa-cat" },
-        { q: "'Does' se usa con...", o: ["I, You, We, They", "He, She, It", "Solo I", "Todos"], a: 1, e: "3ra persona.", i: "fa-question" },
-        { q: "______ you speak English?", o: ["Does", "Is", "Do", "Are"], a: 2, e: "Do you?", i: "fa-comment" },
-        { q: "She ______ not like coffee.", o: ["do", "does", "is", "are"], a: 1, e: "She does not.", i: "fa-mug-hot" },
-        { q: "______ he work here?", o: ["Do", "Does", "Is", "Are"], a: 1, e: "Does he?", i: "fa-briefcase" },
-        { q: "They ______ not play tennis.", o: ["does", "do", "is", "are"], a: 1, e: "They do not.", i: "fa-table-tennis-paddle-ball" },
-        { q: "I have ______ apple.", o: ["a", "an", "two", "the"], a: 1, e: "An apple.", i: "fa-apple-whole" },
-        { q: "This is ______ car.", o: ["a", "an", "one", "the"], a: 0, e: "A car.", i: "fa-car" },
-        { q: "'An' se usa ante...", o: ["Consonante", "Vocal", "S", "H muda"], a: 1, e: "Sonido vocal.", i: "fa-font" },
-        { q: "It is ______ orange.", o: ["a", "an", "the", "one"], a: 1, e: "An orange.", i: "fa-carrot" },
-        { q: "He is ______ doctor.", o: ["a", "an", "two", "one"], a: 0, e: "A doctor.", i: "fa-user-doctor" },
-        { q: "Plural de 'Car'.", o: ["Cares", "Cars", "Car", "Caries"], a: 1, e: "Cars.", i: "fa-car-side" },
-        { q: "Plural de 'Man'.", o: ["Mans", "Men", "Manes", "Mens"], a: 1, e: "Men.", i: "fa-person" },
-        { q: "Plural de 'Child'.", o: ["Childs", "Children", "Childrens", "Kid"], a: 1, e: "Children.", i: "fa-children" },
-        { q: "Plurales regulares agregan...", o: ["-es", "-ing", "-s", "-ed"], a: 2, e: "S.", i: "fa-plus" },
-        { q: "Two ______ (brother).", o: ["brother", "brothers", "brotheres", "bro"], a: 1, e: "Brothers.", i: "fa-users" },
-        { q: "I have a book. It is ______ book.", o: ["my", "your", "his", "her"], a: 0, e: "My.", i: "fa-book" },
-        { q: "She has a dog. It is ______ dog.", o: ["his", "her", "my", "its"], a: 1, e: "Her.", i: "fa-dog" },
-        { q: "'My, Your' son...", o: ["Calificativos", "Demostrativos", "Posesivos", "Numerales"], a: 2, e: "Posesivos.", i: "fa-hand-holding" },
-        { q: "We love ______ family.", o: ["our", "their", "us", "we"], a: 0, e: "Our.", i: "fa-people-roof" },
-        { q: "He washes ______ car.", o: ["her", "his", "my", "your"], a: 1, e: "His.", i: "fa-soap" },
-        { q: "Red + Yellow =", o: ["Green", "Orange", "Purple", "Blue"], a: 1, e: "Orange.", i: "fa-palette" },
-        { q: "One, Two, Three, ______.", o: ["Five", "Four", "Six", "Ten"], a: 1, e: "Four.", i: "fa-arrow-down-1-9" },
-        { q: "'Blue' es...", o: ["Rojo", "Verde", "Azul", "Negro"], a: 2, e: "Azul.", i: "fa-droplet" },
-        { q: "Ten minus two is...", o: ["Eight", "Seven", "Nine", "Six"], a: 0, e: "Eight.", i: "fa-calculator" },
-        { q: "The sun is...", o: ["Blue", "Yellow", "Green", "Black"], a: 1, e: "Yellow.", i: "fa-sun" },
-        { q: "Cat is ______ the table (sobre).", o: ["in", "on", "at", "under"], a: 1, e: "On.", i: "fa-cat" },
-        { q: "I live ______ Argentina.", o: ["on", "at", "in", "to"], a: 2, e: "In.", i: "fa-earth-americas" },
-        { q: "'In' se usa para...", o: ["Horas", "Días", "Lugares/Países", "Superficies"], a: 2, e: "Lugares grandes.", i: "fa-box-open" },
-        { q: "Dog is ______ the bed (debajo).", o: ["on", "in", "under", "over"], a: 2, e: "Under.", i: "fa-bed" },
-        { q: "See you ______ Monday.", o: ["in", "on", "at", "to"], a: 1, e: "On.", i: "fa-calendar-day" },
-        { q: "I ______ swim.", o: ["can", "do", "is", "are"], a: 0, e: "Can.", i: "fa-person-swimming" },
-        { q: "'Can' indica...", o: ["Pasado", "Futuro", "Habilidad", "Obligación"], a: 2, e: "Habilidad.", i: "fa-thumbs-up" },
-        { q: "Birds ______ fly.", o: ["can", "can't", "do", "don't"], a: 0, e: "Can.", i: "fa-dove" },
-        { q: "He ______ speak Chinese (no).", o: ["no can", "can't", "don't can", "doesn't can"], a: 1, e: "Can't.", i: "fa-ban" },
-        { q: "______ you help me?", o: ["Can", "Do", "Are", "Have"], a: 0, e: "Can you?", i: "fa-handshake-angle" },
-        { q: "She is ______ now.", o: ["sleep", "sleeps", "sleeping", "slept"], a: 2, e: "Sleeping.", i: "fa-bed" },
-        { q: "Presente Continuo es para...", o: ["Ayer", "Siempre", "Ahora mismo", "Mañana"], a: 2, e: "Ahora.", i: "fa-clock" },
-        { q: "They ______ playing.", o: ["is", "am", "are", "be"], a: 2, e: "Are.", i: "fa-futbol" },
-        { q: "I am ______ TV.", o: ["watch", "watching", "watches", "watched"], a: 1, e: "Watching.", i: "fa-tv" },
-        { q: "What ______ you doing?", o: ["is", "am", "are", "do"], a: 2, e: "Are.", i: "fa-question" }
+        // Present Simple
+        { q: "She ______ tennis every Sunday.", o: ["play", "plays", "playing", "played"], a: 1, e: "3ra persona singular: Plays.", i: "fa-table-tennis-paddle-ball" },
+        { q: "______ you like chocolate?", o: ["Does", "Is", "Do", "Are"], a: 2, e: "Auxiliar para You en presente: Do.", i: "fa-cookie" },
+        { q: "He ______ watch TV at night.", o: ["don't", "doesn't", "isn't", "aren't"], a: 1, e: "Negativo He: Doesn't.", i: "fa-tv" },
+        { q: "Water ______ at 100°C.", o: ["boil", "boils", "boiling", "boiled"], a: 1, e: "Hecho científico: Boils.", i: "fa-temperature-high" },
+        { q: "We ______ live in Spain.", o: ["doesn't", "aren't", "not", "don't"], a: 3, e: "Negativo We: Don't.", i: "fa-flag" },
+        { q: "Where ______ she work?", o: ["do", "does", "is", "are"], a: 1, e: "Pregunta She: Does.", i: "fa-briefcase" },
+        { q: "I usually ______ up at 7:00.", o: ["get", "gets", "getting", "got"], a: 0, e: "1ra persona: Get.", i: "fa-clock" },
+        { q: "My brother ______ have a car.", o: ["don't", "doesn't", "isn't", "hasn't"], a: 1, e: "Negativo 'have' para He: Doesn't have.", i: "fa-car" },
+        { q: "The sun ______ in the east.", o: ["rise", "rises", "rising", "rose"], a: 1, e: "Hecho natural: Rises.", i: "fa-sun" },
+        { q: "Do they ______ English?", o: ["speak", "speaks", "speaking", "spoke"], a: 0, e: "Pregunta con Do lleva verbo base.", i: "fa-language" },
+        
+        // Present Continuous
+        { q: "Listen! The baby ______.", o: ["cries", "is crying", "cry", "cried"], a: 1, e: "Acción ahora: Is crying.", i: "fa-baby" },
+        { q: "I ______ reading a book now.", o: ["is", "are", "am", "be"], a: 2, e: "I am reading.", i: "fa-book-open" },
+        { q: "Why ______ you laughing?", o: ["do", "have", "are", "is"], a: 2, e: "Why are you...?", i: "fa-face-laugh" },
+        { q: "They ______ playing football.", o: ["is", "am", "are", "do"], a: 2, e: "They are playing.", i: "fa-futbol" },
+        { q: "She is ______ a blue dress.", o: ["wear", "wears", "wearing", "wore"], a: 2, e: "Continuous: Wearing.", i: "fa-shirt" },
+        { q: "Are you ______ for the bus?", o: ["wait", "waits", "waiting", "waited"], a: 2, e: "Are you waiting?", i: "fa-bus" },
+        { q: "Look! It ______.", o: ["rain", "rains", "is raining", "rained"], a: 2, e: "Look! indica ahora: Is raining.", i: "fa-cloud-rain" },
+        { q: "He ______ working today.", o: ["isn't", "don't", "doesn't", "not"], a: 0, e: "He isn't working.", i: "fa-briefcase-medical" },
+        { q: "What ______ doing?", o: ["you are", "are you", "do you", "you do"], a: 1, e: "Orden: What are you doing?", i: "fa-question" },
+        { q: "We are ______ dinner.", o: ["have", "has", "having", "had"], a: 2, e: "Having (quita la e final).", i: "fa-utensils" },
+
+        // Past Simple
+        { q: "I ______ to Paris last year.", o: ["go", "went", "gone", "goes"], a: 1, e: "Irregular Go -> Went.", i: "fa-plane" },
+        { q: "She ______ pizza yesterday.", o: ["eat", "ate", "eaten", "eating"], a: 1, e: "Irregular Eat -> Ate.", i: "fa-pizza-slice" },
+        { q: "They ______ watch the movie.", o: ["didn't", "don't", "wasn't", "weren't"], a: 0, e: "Negativo pasado: Didn't.", i: "fa-film" },
+        { q: "Where ______ you born?", o: ["did", "was", "were", "are"], a: 2, e: "Nacer usa To Be: Were you born?", i: "fa-hospital" },
+        { q: "He ______ happy with the test.", o: ["wasn't", "didn't", "weren't", "isn't"], a: 0, e: "To be pasado (He): Wasn't.", i: "fa-face-frown" },
+        { q: "Did you ______ the keys?", o: ["find", "found", "finds", "finding"], a: 0, e: "Con Did, verbo en base: Find.", i: "fa-key" },
+        { q: "We ______ football on Saturday.", o: ["play", "played", "plaied", "playing"], a: 1, e: "Regular: Played.", i: "fa-futbol" },
+        { q: "I ______ a new car.", o: ["buy", "bought", "buyed", "buying"], a: 1, e: "Irregular Buy -> Bought.", i: "fa-car" },
+        { q: "When ______ they arrive?", o: ["did", "were", "was", "are"], a: 0, e: "Pregunta acción: Did.", i: "fa-clock" },
+        { q: "She ______ see me.", o: ["didn't", "wasn't", "don't", "not"], a: 0, e: "Didn't see.", i: "fa-eye-slash" },
+
+        // Future (Will / Going to)
+        { q: "Look at the clouds! It ______ rain.", o: ["will", "is going to", "goes to", "is will"], a: 1, e: "Evidencia: Is going to.", i: "fa-cloud" },
+        { q: "I think people ______ live on Mars.", o: ["will", "are going to", "is going", "wills"], a: 0, e: "Predicción general: Will.", i: "fa-rocket" },
+        { q: "We ______ visit grandma tomorrow.", o: ["will", "are going to", "go to", "going"], a: 1, e: "Plan: Are going to.", i: "fa-user-group" },
+        { q: "I promise I ______ help you.", o: ["am going to", "will", "willing", "am"], a: 1, e: "Promesa: Will.", i: "fa-handshake" },
+        { q: "______ you open the door, please?", o: ["Do", "Are", "Will", "Is"], a: 2, e: "Petición: Will you?", i: "fa-door-open" },
+        { q: "She is ______ to buy a house.", o: ["go", "going", "goes", "gone"], a: 1, e: "She is going to.", i: "fa-house" },
+        { q: "Maybe I ______ go to the party.", o: ["will", "am going to", "go", "am"], a: 0, e: "Incertidumbre (Maybe): Will.", i: "fa-champagne-glasses" },
+        { q: "They ______ not going to come.", o: ["will", "are", "do", "have"], a: 1, e: "They ARE not going to.", i: "fa-xmark" },
+        { q: "What are you ______ do?", o: ["going to", "will", "go to", "gonna"], a: 0, e: "Going to (formal).", i: "fa-question" },
+        { q: "The phone is ringing. I ______ answer it.", o: ["will", "am going to", "answer", "answering"], a: 0, e: "Decisión espontánea: Will.", i: "fa-phone" },
+
+        // Comparatives & Superlatives
+        { q: "An elephant is ______ than a mouse.", o: ["big", "biger", "bigger", "biggest"], a: 2, e: "Comparativo corto: Bigger.", i: "fa-elephant" },
+        { q: "Ferrari is ______ than Fiat.", o: ["expensive", "more expensive", "expensiver", "most expensive"], a: 1, e: "Largo: More expensive.", i: "fa-car" },
+        { q: "This is the ______ movie ever.", o: ["bad", "baddest", "worse", "worst"], a: 3, e: "Superlativo irregular: Worst.", i: "fa-film" },
+        { q: "China is the ______ country.", o: ["large", "larger", "largest", "most large"], a: 2, e: "Superlativo: Largest.", i: "fa-earth-asia" },
+        { q: "English is ______ than Chinese.", o: ["easy", "easier", "more easy", "easiest"], a: 1, e: "Termina en y: Easier.", i: "fa-language" },
+        { q: "Who is the ______ person here?", o: ["old", "older", "oldest", "most old"], a: 2, e: "Superlativo: Oldest.", i: "fa-person-cane" },
+        { q: "Summer is ______ than winter.", o: ["hot", "hotter", "hottest", "more hot"], a: 1, e: "Corto: Hotter.", i: "fa-sun" },
+        { q: "This book is ______ interesting than that one.", o: ["more", "most", "much", "many"], a: 0, e: "More interesting.", i: "fa-book" },
+        { q: "She is the ______ girl in class.", o: ["tall", "taller", "tallest", "most tall"], a: 2, e: "Tallest.", i: "fa-child-dress" },
+        { q: "I am ______ than my brother.", o: ["young", "younger", "youngest", "more young"], a: 1, e: "Younger.", i: "fa-child" },
+
+        // Prepositions
+        { q: "The book is ______ the table.", o: ["in", "on", "at", "under"], a: 1, e: "Sobre superficie: On.", i: "fa-book" },
+        { q: "I was born ______ 1990.", o: ["in", "on", "at", "of"], a: 0, e: "Años: In.", i: "fa-calendar" },
+        { q: "See you ______ Monday.", o: ["in", "on", "at", "by"], a: 1, e: "Días: On.", i: "fa-calendar-day" },
+        { q: "The class starts ______ 8:00.", o: ["in", "on", "at", "to"], a: 2, e: "Horas: At.", i: "fa-clock" },
+        { q: "My birthday is ______ May.", o: ["on", "in", "at", "of"], a: 1, e: "Meses: In.", i: "fa-cake-candles" },
+        { q: "The cat is ______ the chair (debajo).", o: ["on", "in", "under", "over"], a: 2, e: "Debajo: Under.", i: "fa-cat" },
+        { q: "I live ______ Argentina.", o: ["in", "on", "at", "from"], a: 0, e: "Países: In.", i: "fa-map" },
+        { q: "The picture is ______ the wall.", o: ["in", "on", "at", "above"], a: 1, e: "Pared: On.", i: "fa-image" },
+        { q: "Wait for me ______ the bus stop.", o: ["in", "on", "at", "under"], a: 2, e: "Punto específico: At.", i: "fa-bus" },
+        { q: "She is interested ______ music.", o: ["on", "in", "at", "of"], a: 1, e: "Interested IN.", i: "fa-music" },
+
+        // Modals (Can, Must, Should)
+        { q: "______ you swim?", o: ["Do", "Can", "Are", "Is"], a: 1, e: "Habilidad: Can.", i: "fa-person-swimming" },
+        { q: "You ______ smoke in the hospital.", o: ["can", "can't", "don't", "doesn't"], a: 1, e: "Prohibición: Can't.", i: "fa-ban" },
+        { q: "I ______ speak Japanese.", o: ["can", "can't", "no can", "don't can"], a: 1, e: "Negativo: Can't.", i: "fa-language" },
+        { q: "It's raining. You ______ take an umbrella.", o: ["should", "can", "mustn't", "will"], a: 0, e: "Consejo: Should.", i: "fa-umbrella" },
+        { q: "You ______ stop at the red light.", o: ["can", "should", "must", "may"], a: 2, e: "Obligación fuerte: Must.", i: "fa-traffic-light" },
+        { q: "Can I ______ the window?", o: ["open", "to open", "opening", "opens"], a: 0, e: "Can + verbo base.", i: "fa-door-open" },
+        { q: "Penguins ______ fly.", o: ["can", "can't", "aren't", "don't"], a: 1, e: "Hecho: Can't.", i: "fa-kiwi-bird" },
+        { q: "______ I help you?", o: ["Do", "Can", "Have", "Am"], a: 1, e: "Oferta: Can.", i: "fa-handshake-angle" },
+        { q: "He ______ drive very well.", o: ["can", "cans", "cant", "is"], a: 0, e: "Can no cambia con He.", i: "fa-car-side" },
+        { q: "We ______ go now, it's late.", o: ["must", "can", "may", "will"], a: 0, e: "Necesidad: Must.", i: "fa-clock" },
+
+        // Vocabulary & Misc
+        { q: "My sister's son is my...", o: ["Nephew", "Cousin", "Uncle", "Niece"], a: 0, e: "Sobrino: Nephew.", i: "fa-child" },
+        { q: "Opposite of 'Cheap'.", o: ["Big", "Expensive", "Small", "Good"], a: 1, e: "Caro: Expensive.", i: "fa-tag" },
+        { q: "Twelve months make a...", o: ["Week", "Day", "Year", "Century"], a: 2, e: "Año: Year.", i: "fa-calendar-check" },
+        { q: "I have a pain in my head. I have a...", o: ["Headache", "Stomachache", "Cold", "Flu"], a: 0, e: "Dolor cabeza: Headache.", i: "fa-head-side-virus" },
+        { q: "You buy bread at the...", o: ["Butcher's", "Bakery", "Pharmacy", "Bank"], a: 1, e: "Panadería: Bakery.", i: "fa-bread-slice" },
+        { q: "Yellow + Blue = ...", o: ["Red", "Green", "Purple", "Orange"], a: 1, e: "Verde: Green.", i: "fa-palette" },
+        { q: "My mother's sister is my...", o: ["Aunt", "Uncle", "Cousin", "Grandma"], a: 0, e: "Tía: Aunt.", i: "fa-person-dress" },
+        { q: "Breakfast, Lunch, ______.", o: ["Dinner", "Food", "Eat", "Night"], a: 0, e: "Cena: Dinner.", i: "fa-utensils" },
+        { q: "Opposite of 'Always'.", o: ["Sometimes", "Never", "Often", "Usually"], a: 1, e: "Nunca: Never.", i: "fa-timeline" },
+        { q: "A place to read books.", o: ["Library", "Bookstore", "Gym", "Shop"], a: 0, e: "Biblioteca: Library.", i: "fa-book" },
+
+        // Wh- Questions & Grammar Rules (Spanish prompts)
+        { q: "______ is your name?", o: ["Who", "Where", "What", "Why"], a: 2, e: "What.", i: "fa-id-card" },
+        { q: "______ old are you?", o: ["How", "What", "When", "Who"], a: 0, e: "How old.", i: "fa-cake-candles" },
+        { q: "______ do you live?", o: ["What", "Where", "Who", "When"], a: 1, e: "Lugar: Where.", i: "fa-map-location-dot" },
+        { q: "______ is that man?", o: ["What", "Which", "Who", "Where"], a: 2, e: "Persona: Who.", i: "fa-user" },
+        { q: "¿Cuál es el plural de 'Child'?", o: ["Childs", "Children", "Childrens", "Kid"], a: 1, e: "Children.", i: "fa-children" },
+        { q: "¿Cuándo usamos 'Any'?", o: ["Afirmativas", "Negativas/Preguntas", "Siempre", "Nunca"], a: 1, e: "Negativas e Interrogativas.", i: "fa-circle-question" },
+        { q: "¿Qué significa 'Going to'?", o: ["Pasado", "Futuro plan", "Rutina", "Habilidad"], a: 1, e: "Planes futuros.", i: "fa-forward" },
+        { q: "Plural de 'Woman'.", o: ["Womans", "Women", "Womens", "Girls"], a: 1, e: "Irregular: Women.", i: "fa-person-dress" },
+        { q: "Object pronoun de 'She'.", o: ["He", "Him", "Her", "Hers"], a: 2, e: "Her (ej: Call her).", i: "fa-phone" },
+        { q: "¿Adjetivos en inglés van...?", o: ["Después del sustantivo", "Antes", "Al final", "Da igual"], a: 1, e: "Antes (Red car).", i: "fa-pen-fancy" }
     ];
 
-    let questions = db.sort(() => Math.random() - 0.5);
-    
-    // EMOJIS MOTIVACIONALES
     const motivations = [
-        { t: "¡Excelente!", i: "🚀" },
-        { t: "¡Sigue así!", i: "💪" },
-        { t: "¡Buen trabajo!", i: "⭐" },
-        { t: "¡Eres genial!", i: "🧠" },
-        { t: "¡No te rindas!", i: "🔥" }
+        { t: "¡Sigue así! El éxito es la suma de pequeños esfuerzos.", i: "https://images.unsplash.com/photo-1494178270175-e96de2971df9?auto=format&fit=crop&w=500&q=60" },
+        { t: "No te rindas, estás progresando.", i: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=500&q=60" },
+        { t: "Cree en ti mismo y serás imparable.", i: "https://images.unsplash.com/photo-1519834785169-98be25ec3f84?auto=format&fit=crop&w=500&q=60" },
+        { t: "La disciplina es el puente entre metas y logros.", i: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=500&q=60" },
+        { t: "Cada error es una lección aprendida.", i: "https://images.unsplash.com/photo-1456406644174-8ddd4cd52a06?auto=format&fit=crop&w=500&q=60" }
     ];
 
+    // MODIFICADO: Se seleccionan solo 60 preguntas aleatorias de la base total
+    let questions = db.sort(() => Math.random() - 0.5).slice(0, TOTAL_QUESTIONS);
+    
     // VARIABLES
     let currentIdx = 0;
     let score = 0;
     let userAns = [];
     let timerInterval;
     let timeLeft = TIME_PER_QUESTION;
+    let startTime;
     let lifelines = { fifty: 3, time: 4, skip: 1 };
     
+    // ELEMENTOS UI
     const timerDisplay = document.getElementById('timer');
     const startScreen = document.getElementById('startScreen');
     const gameScreen = document.getElementById('gameScreen');
     const resultScreen = document.getElementById('resultScreen');
 
-    window.addEventListener('beforeunload', function (e) {
-        if (gameScreen.classList.contains('active')) {
-            e.preventDefault();
-            e.returnValue = '';
-        }
-    });
-
+    // CHECK INICIAL (Bloqueo de reintento)
     window.onload = function() {
-        if(localStorage.getItem('noa_exam_a1_monetized')) {
-            const data = JSON.parse(localStorage.getItem('noa_exam_a1_monetized'));
+        if(localStorage.getItem('noa_exam_a2_final')) {
+            const data = JSON.parse(localStorage.getItem('noa_exam_a2_final'));
             showResults(data.score, data.userAns, true);
         }
     };
 
+    // INICIO CON CÁMARA
     async function initExam() {
         try {
             const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -393,7 +490,7 @@
             document.getElementById('securityCam').style.display = 'block';
             startQuiz();
         } catch (err) {
-            alert("Error: Activa la cámara para continuar.");
+            alert("ERROR: El sistema requiere acceso a la cámara para validar el examen. Por favor, permite el acceso y recarga la página.");
         }
     }
 
@@ -402,14 +499,15 @@
         gameScreen.classList.add('active');
         document.getElementById('timerBadge').style.display = 'flex';
         document.getElementById('finishBtn').style.display = 'block';
+        startTime = new Date();
         loadQuestion();
     }
 
     function loadQuestion() {
         const q = questions[currentIdx];
-        document.getElementById('qCount').innerText = `${currentIdx + 1}/50`;
+        document.getElementById('qCount').innerText = `${currentIdx + 1}/${TOTAL_QUESTIONS}`;
         document.getElementById('sCount').innerText = `Aciertos: ${score}`;
-        document.getElementById('progressBar').style.width = `${(currentIdx/50)*100}%`;
+        document.getElementById('progressBar').style.width = `${(currentIdx/TOTAL_QUESTIONS)*100}%`;
         
         document.getElementById('qText').innerText = q.q;
         document.getElementById('qImage').innerHTML = `<i class="fas ${q.i}"></i>`;
@@ -459,6 +557,7 @@
         clearInterval(timerInterval);
         const q = questions[currentIdx];
         const isCorrect = (idx === q.a);
+        
         const btns = document.querySelectorAll('.option-btn');
         btns.forEach(b => b.disabled = true);
 
@@ -486,7 +585,8 @@
     }
 
     function checkMotivation() {
-        if (currentIdx > 0 && (currentIdx + 1) % 5 === 0 && currentIdx < 49) {
+        // Mostrar motivación cada 5 preguntas
+        if (currentIdx > 0 && (currentIdx + 1) % 5 === 0 && currentIdx < (TOTAL_QUESTIONS - 1)) {
             showMotivation();
         } else {
             nextQ();
@@ -496,7 +596,7 @@
     function showMotivation() {
         const overlay = document.getElementById('motivationOverlay');
         const randomMot = motivations[Math.floor(Math.random() * motivations.length)];
-        document.getElementById('motEmoji').innerText = randomMot.i;
+        document.getElementById('motImg').src = randomMot.i;
         document.getElementById('motQuote').innerText = `"${randomMot.t}"`;
         overlay.style.display = 'flex';
     }
@@ -508,10 +608,11 @@
 
     function nextQ() {
         currentIdx++;
-        if(currentIdx < 50) loadQuestion();
+        if(currentIdx < TOTAL_QUESTIONS) loadQuestion();
         else finish();
     }
 
+    // COMODINES
     function updateLifelines() {
         document.getElementById('c50').innerText = lifelines.fifty;
         document.getElementById('cTime').innerText = lifelines.time;
@@ -520,18 +621,32 @@
         document.getElementById('btnTime').disabled = lifelines.time <= 0;
         document.getElementById('btnSkip').disabled = lifelines.skip <= 0;
     }
-    function useFifty() { if(lifelines.fifty > 0) {
+    function useFifty() {
+        if(lifelines.fifty <= 0) return;
         const q = questions[currentIdx];
         const btns = Array.from(document.querySelectorAll('.option-btn'));
         let wrongs = btns.map((_, i) => i).filter(i => i !== q.a);
         wrongs.sort(() => Math.random() - 0.5).slice(0, 2).forEach(i => btns[i].classList.add('hidden'));
         lifelines.fifty--; updateLifelines();
-    }}
-    function useTime() { if(lifelines.time > 0) { timeLeft += 15; timerDisplay.innerText = timeLeft; lifelines.time--; updateLifelines(); }}
-    function useSkip() { if(lifelines.skip > 0) { clearInterval(timerInterval); score++; recordAnswer(questions[currentIdx].q, "COMODÍN", "---", true); lifelines.skip--; updateLifelines(); feedback(true, "¡Regalada!", "Comodín usado.", "fa-gift"); }}
+    }
+    function useTime() {
+        if(lifelines.time <= 0) return;
+        timeLeft += 15; timerDisplay.innerText = timeLeft;
+        timerDisplay.parentElement.style.background = '#27ae60';
+        lifelines.time--; updateLifelines();
+    }
+    function useSkip() {
+        if(lifelines.skip <= 0) return;
+        clearInterval(timerInterval);
+        const q = questions[currentIdx];
+        score++;
+        recordAnswer(q.q, "COMODÍN SKIP", q.o[q.a], true);
+        lifelines.skip--; updateLifelines();
+        feedback(true, "¡Pregunta Regalada!", "Usaste tu comodín.", "fa-gift");
+    }
 
     function confirmFinish() {
-        if(confirm("¿Terminar ahora?")) {
+        if(confirm("¿Terminar ahora? Se enviará tu nota actual.")) {
             clearInterval(timerInterval);
             finish();
         }
@@ -539,8 +654,9 @@
 
     function finish() {
         const examData = { score: score, userAns: userAns, date: new Date().toISOString() };
-        localStorage.setItem('noa_exam_a1_monetized', JSON.stringify(examData));
+        localStorage.setItem('noa_exam_a2_final', JSON.stringify(examData));
         
+        // Parar cámara
         const videoEl = document.getElementById('webcamVideo');
         if (videoEl.srcObject) videoEl.srcObject.getTracks().forEach(track => track.stop());
         document.getElementById('securityCam').style.display = 'none';
@@ -557,16 +673,17 @@
 
         if(isRevisit) {
             document.getElementById('cheatAlert').style.display = 'block';
-            document.getElementById('whatsappBtn').innerText = "REENVIAR RESULTADO";
+            document.getElementById('whatsappBtn').innerText = "REENVIAR RESULTADO (Copia)";
         }
 
-        document.getElementById('finalScore').innerText = `${finalScore}/50`;
+        document.getElementById('finalScore').innerText = `${finalScore}/${TOTAL_QUESTIONS}`;
         const rankEl = document.getElementById('rankBadge');
-        if(finalScore >= 45) { rankEl.innerText = "EXCELENTE"; rankEl.style.background = "#27ae60"; }
+        // Ajuste de rangos para 60 preguntas
+        if(finalScore >= 54) { rankEl.innerText = "MASTER"; rankEl.style.background = "#27ae60"; } // 90%
         else if(finalScore >= PASS_SCORE) { rankEl.innerText = "APROBADO"; rankEl.style.background = "#f39c12"; }
         else { rankEl.innerText = "REPROBADO"; rankEl.style.background = "#c0392b"; }
         
-        document.getElementById('motivationalMsg').innerText = finalScore >= PASS_SCORE ? "¡Felicidades!" : "Necesitas repasar.";
+        document.getElementById('motivationalMsg').innerText = finalScore >= PASS_SCORE ? "¡Felicidades por completar el examen!" : "Necesitas reforzar contenidos.";
 
         const code = `NOA-${finalScore}-${Math.floor(Math.random()*9000)+1000}`;
         document.getElementById('valCode').innerText = code;
@@ -587,16 +704,13 @@
         const course = document.getElementById('inputCourse').value.trim();
         const code = document.getElementById('valCode').innerText;
 
-        if(!name || !dni || !course) { alert("Completa todos los datos."); return false; }
+        if(!name || !dni || !course) { alert("Por favor completa todos los datos."); return false; }
         
-        // MENSAJE DE WHATSAPP
-        const msg = `*EXAMEN OFICIAL NOA - A1*%0A--------------------------%0A*Alumno:* ${name}%0A*DNI:* ${dni}%0A*Comisión:* ${course}%0A*Nota Final:* ${score}/50%0A*Código:* ${code}%0A--------------------------%0AEnvío verificado desde web.`;
+        const endTime = new Date();
+        const duration = startTime ? Math.round((endTime - startTime)/1000/60) + " min" : "Recarga";
+        const msg = `*EXAMEN OFICIAL NOA - A2*%0A--------------------------%0A*Alumno:* ${name}%0A*DNI:* ${dni}%0A*Comisión:* ${course}%0A*Nota Final:* ${score}/${TOTAL_QUESTIONS}%0A*Código:* ${code}%0A*Tiempo:* ${duration}%0A--------------------------%0AEnvío verificado desde web.`;
         
-        // 1. ABRIR WHATSAPP EN NUEVA PESTAÑA PARA QUE EL ALUMNO ENVÍE
-        window.open(`https://wa.me/543816490060?text=${msg}`, '_blank');
-
-        // 2. REDIRIGIR LA PÁGINA ACTUAL A LA PUBLICIDAD (Monetización)
-        window.location.href = "https://www.effectivegatecpm.com/rbiusy97?key=77a7a373a7abeec4d953506a4251f993";
+        window.open(`https://wa.me/5493816490060?text=${msg}`, '_blank');
     }
 </script>
 </body>
