@@ -178,11 +178,15 @@
         footer {
             margin-top: auto;
             width: 100%;
-            background: #f0f0f0;
+            background: #f8f8f8;
             padding: 5px;
             text-align: center;
-            border-top: 1px solid #ddd;
+            border-top: 1px solid #eee;
             flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 60px; /* Altura mínima para el banner */
         }
     </style>
 </head>
@@ -282,10 +286,18 @@
         <div class="review-list" id="reviewList"></div>
     </div>
 
-    <!-- FOOTER NATIVE BANNER -->
+    <!-- FOOTER BANNER 320x50 -->
     <footer>
-        <script async="async" data-cfasync="false" src="//pl28177742.effectivegatecpm.com/9f3a12f2f400330b956da2a51ee02dc4/invoke.js"></script>
-        <div id="container-9f3a12f2f400330b956da2a51ee02dc4"></div>
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '96335436c2ab350b1129afa663553c5c',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//www.highperformanceformat.com/96335436c2ab350b1129afa663553c5c/invoke.js"></script>
     </footer>
 </div>
 
@@ -339,7 +351,7 @@
         { q: "'Can' indica...", o: ["Pasado", "Futuro", "Habilidad", "Obligación"], a: 2, e: "Habilidad.", i: "fa-thumbs-up" },
         { q: "Birds ______ fly.", o: ["can", "can't", "do", "don't"], a: 0, e: "Can.", i: "fa-dove" },
         { q: "He ______ speak Chinese (no).", o: ["no can", "can't", "don't can", "doesn't can"], a: 1, e: "Can't.", i: "fa-ban" },
-        { q: "______ you help me?", o: ["Can", "Do", "Are", "Have"], a: 0, e: "Can you?", i: "fa-handshake-angle" },
+        { q: "______ you help me?", o: ["Can", "Do", "Are", "Have"], a: 0, e: "Can you?", i: "fa-hand-shake-angle" },
         { q: "She is ______ now.", o: ["sleep", "sleeps", "sleeping", "slept"], a: 2, e: "Sleeping.", i: "fa-bed" },
         { q: "Presente Continuo es para...", o: ["Ayer", "Siempre", "Ahora mismo", "Mañana"], a: 2, e: "Ahora.", i: "fa-clock" },
         { q: "They ______ playing.", o: ["is", "am", "are", "be"], a: 2, e: "Are.", i: "fa-futbol" },
@@ -589,13 +601,11 @@
 
         if(!name || !dni || !course) { alert("Completa todos los datos."); return false; }
         
-        // MENSAJE DE WHATSAPP
-        const msg = `*EXAMEN OFICIAL NOA - A1*%0A--------------------------%0A*Alumno:* ${name}%0A*DNI:* ${dni}%0A*Comisión:* ${course}%0A*Nota Final:* ${score}/50%0A*Código:* ${code}%0A--------------------------%0AEnvío verificado desde web.`;
+        const endTime = new Date();
+        const duration = startTime ? Math.round((endTime - startTime)/1000/60) + " min" : "Recarga";
+        const msg = `*EXAMEN OFICIAL NOA - A1*%0A--------------------------%0A*Alumno:* ${name}%0A*DNI:* ${dni}%0A*Comisión:* ${course}%0A*Nota Final:* ${score}/50%0A*Código:* ${code}%0A*Tiempo:* ${duration}%0A--------------------------%0AEnvío verificado desde web.`;
         
-        // 1. ABRIR WHATSAPP EN NUEVA PESTAÑA PARA QUE EL ALUMNO ENVÍE
         window.open(`https://wa.me/543816490060?text=${msg}`, '_blank');
-
-        // 2. REDIRIGIR LA PÁGINA ACTUAL A LA PUBLICIDAD (Monetización)
         window.location.href = "https://www.effectivegatecpm.com/rbiusy97?key=77a7a373a7abeec4d953506a4251f993";
     }
 </script>
