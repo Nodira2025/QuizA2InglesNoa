@@ -54,51 +54,6 @@
             z-index: 1;
         }
 
-        /* --- CÁMARA FLOTANTE --- */
-        .security-cam {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 180px;
-            height: 135px;
-            background: #000;
-            border: 4px solid #333;
-            border-radius: 8px;
-            z-index: 9999;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
-            overflow: hidden;
-            display: none; /* Se activa con JS */
-        }
-
-        .security-cam video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.7;
-            filter: grayscale(30%);
-        }
-
-        .rec-indicator {
-            position: absolute;
-            top: 5px; left: 5px;
-            color: #ff0000;
-            font-weight: bold;
-            font-family: monospace;
-            font-size: 0.8rem;
-            display: flex; align-items: center; gap: 5px;
-            background: rgba(0,0,0,0.6);
-            padding: 2px 6px;
-            border-radius: 3px;
-        }
-
-        .rec-dot {
-            width: 10px; height: 10px;
-            background-color: #ff0000;
-            border-radius: 50%;
-            animation: blink 1s infinite;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
-
         /* HEADER */
         header {
             background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
@@ -223,16 +178,9 @@
 </head>
 <body oncontextmenu="return false;">
 
-<!-- CÁMARA FLOTANTE -->
-<div class="security-cam" id="securityCam">
-    <div class="rec-indicator"><div class="rec-dot"></div> REC • LIVE</div>
-    <video id="webcamVideo" autoplay muted playsinline></video>
-</div>
-
 <div class="container">
     <header>
         <div class="logo-area">
-            <!-- LOGO AGREGADO AQUÍ -->
             <img src="https://institutonoa.com.ar/wp-content/uploads/2021/09/cropped-cropped-Logo-Covid-NOA-140x79-1-126x71.png" alt="Logo Instituto NOA" class="logo-img">
             INSTITUTO NOA
         </div>
@@ -252,19 +200,13 @@
         <div class="intro-icon"><i class="fas fa-user-shield"></i></div>
         <h1 style="color:var(--primary-color)">Examen Oficial A2</h1>
         
-        <div style="background: white; padding: 15px; border-radius: 10px; margin: 20px 0; text-align: left; width: 100%; border-left: 5px solid var(--primary-color);">
-            <p><strong><i class="fas fa-video"></i> REQUISITO DE MONITOREO:</strong></p>
-            <p style="font-size:0.9rem; margin-top:5px;">Este examen utiliza supervisión por cámara. Activa los permisos para continuar.</p>
-        </div>
-        
-        <ul style="font-size: 0.9rem; color: #666; margin-bottom: 10px; list-style: none;">
-            <!-- TEXTO ACTUALIZADO A 60 PREGUNTAS -->
+        <ul style="font-size: 0.9rem; color: #666; margin: 20px 0; list-style: none;">
             <li><i class="fas fa-check"></i> 60 Preguntas seleccionadas.</li>
             <li><i class="fas fa-clock"></i> 20 segundos por pregunta.</li>
             <li><i class="fas fa-lock"></i> Un solo intento permitido.</li>
         </ul>
 
-        <button class="btn" onclick="initExam()">ACTIVAR CÁMARA Y COMENZAR</button>
+        <button class="btn" onclick="startQuiz()">COMENZAR EXAMEN</button>
     </div>
 
     <!-- PANTALLA JUEGO -->
@@ -331,12 +273,9 @@
 
 <script>
     const TIME_PER_QUESTION = 20;
-    // Aprobación ajustada a 36/60 (60%)
     const PASS_SCORE = 36;
     const TOTAL_QUESTIONS = 60;
     
-    // 100 Preguntas ÚNICAS para Nivel A2
-    // Presente Simple, Continuo, Pasado, Futuro, Vocabulario, Preposiciones
     const db = [
         // Present Simple
         { q: "She ______ tennis every Sunday.", o: ["play", "plays", "playing", "played"], a: 1, e: "3ra persona singular: Plays.", i: "fa-table-tennis-paddle-ball" },
@@ -455,10 +394,8 @@
         { t: "Cada error es una lección aprendida.", i: "https://images.unsplash.com/photo-1456406644174-8ddd4cd52a06?auto=format&fit=crop&w=500&q=60" }
     ];
 
-    // MODIFICADO: Se seleccionan solo 60 preguntas aleatorias de la base total
     let questions = db.sort(() => Math.random() - 0.5).slice(0, TOTAL_QUESTIONS);
     
-    // VARIABLES
     let currentIdx = 0;
     let score = 0;
     let userAns = [];
@@ -467,32 +404,17 @@
     let startTime;
     let lifelines = { fifty: 3, time: 4, skip: 1 };
     
-    // ELEMENTOS UI
     const timerDisplay = document.getElementById('timer');
     const startScreen = document.getElementById('startScreen');
     const gameScreen = document.getElementById('gameScreen');
     const resultScreen = document.getElementById('resultScreen');
 
-    // CHECK INICIAL (Bloqueo de reintento)
     window.onload = function() {
         if(localStorage.getItem('noa_exam_a2_final')) {
             const data = JSON.parse(localStorage.getItem('noa_exam_a2_final'));
             showResults(data.score, data.userAns, true);
         }
     };
-
-    // INICIO CON CÁMARA
-    async function initExam() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const videoElement = document.getElementById('webcamVideo');
-            videoElement.srcObject = stream;
-            document.getElementById('securityCam').style.display = 'block';
-            startQuiz();
-        } catch (err) {
-            alert("ERROR: El sistema requiere acceso a la cámara para validar el examen. Por favor, permite el acceso y recarga la página.");
-        }
-    }
 
     function startQuiz() {
         startScreen.classList.remove('active');
@@ -585,7 +507,6 @@
     }
 
     function checkMotivation() {
-        // Mostrar motivación cada 5 preguntas
         if (currentIdx > 0 && (currentIdx + 1) % 5 === 0 && currentIdx < (TOTAL_QUESTIONS - 1)) {
             showMotivation();
         } else {
@@ -612,7 +533,6 @@
         else finish();
     }
 
-    // COMODINES
     function updateLifelines() {
         document.getElementById('c50').innerText = lifelines.fifty;
         document.getElementById('cTime').innerText = lifelines.time;
@@ -621,6 +541,7 @@
         document.getElementById('btnTime').disabled = lifelines.time <= 0;
         document.getElementById('btnSkip').disabled = lifelines.skip <= 0;
     }
+    
     function useFifty() {
         if(lifelines.fifty <= 0) return;
         const q = questions[currentIdx];
@@ -629,12 +550,14 @@
         wrongs.sort(() => Math.random() - 0.5).slice(0, 2).forEach(i => btns[i].classList.add('hidden'));
         lifelines.fifty--; updateLifelines();
     }
+    
     function useTime() {
         if(lifelines.time <= 0) return;
         timeLeft += 15; timerDisplay.innerText = timeLeft;
         timerDisplay.parentElement.style.background = '#27ae60';
         lifelines.time--; updateLifelines();
     }
+    
     function useSkip() {
         if(lifelines.skip <= 0) return;
         clearInterval(timerInterval);
@@ -655,12 +578,6 @@
     function finish() {
         const examData = { score: score, userAns: userAns, date: new Date().toISOString() };
         localStorage.setItem('noa_exam_a2_final', JSON.stringify(examData));
-        
-        // Parar cámara
-        const videoEl = document.getElementById('webcamVideo');
-        if (videoEl.srcObject) videoEl.srcObject.getTracks().forEach(track => track.stop());
-        document.getElementById('securityCam').style.display = 'none';
-
         showResults(score, userAns, false);
     }
 
@@ -678,8 +595,7 @@
 
         document.getElementById('finalScore').innerText = `${finalScore}/${TOTAL_QUESTIONS}`;
         const rankEl = document.getElementById('rankBadge');
-        // Ajuste de rangos para 60 preguntas
-        if(finalScore >= 54) { rankEl.innerText = "MASTER"; rankEl.style.background = "#27ae60"; } // 90%
+        if(finalScore >= 54) { rankEl.innerText = "MASTER"; rankEl.style.background = "#27ae60"; }
         else if(finalScore >= PASS_SCORE) { rankEl.innerText = "APROBADO"; rankEl.style.background = "#f39c12"; }
         else { rankEl.innerText = "REPROBADO"; rankEl.style.background = "#c0392b"; }
         
